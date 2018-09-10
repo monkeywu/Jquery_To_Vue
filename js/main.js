@@ -48,11 +48,11 @@
     }
     //新增商品至購物車內容，改變右上角購物車數量
     function showItem(ID,totalP,itemAmount,img,title,price){
-        let originAmount = +$('.cartNum').text()
-        let originPrice = +$('.totalPrice').text()
+        // let originAmount = +$('.cartNum').text()
+        console.log(itemInCart)
+        let originPrice = itemInCart.map((x)=>x.totalPrice).reduce((a,b)=>a+b)
+        let originAmount = itemInCart.map((x)=>x.amount).reduce((a,b)=>a+b)
         let str = ''
-        originPrice += totalP
-        originAmount += itemAmount
         $('.totalPrice').text(originPrice)
         $('.cartNum').text(originAmount)
         $('.itemNum').text(originAmount)
@@ -160,8 +160,8 @@
             let id = itemInCart[index].id
             let price = itemInCart[index].totalPrice
             let amount = itemInCart[index].amount
-            let newPrice = (+$('.totalPrice').text()) - price
-            let newAmount = +($('.itemNum').text()) - amount
+            let newPrice = itemInCart.map((x)=>x.totalPrice).reduce((a,b)=>a+b) - price
+            let newAmount = itemInCart.map((x)=>x.amount).reduce((a,b)=>a+b) - amount
             //更新總數量跟價格
             $('.totalPrice').text(newPrice)
             $('.itemNum').text(newAmount)
