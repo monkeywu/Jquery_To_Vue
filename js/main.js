@@ -2,28 +2,28 @@
 ;(function($){
     //json資料
     let dataUrl = 'https://monkeywu.github.io/cart_data.json/'
-    //放資料的陣列
-    let originData = []
+    //放資料的變數
+    let originData;
     //在購物車內的商品
     let itemInCart = []
     //取得商品資料，將商品資料帶入
     function addData(){
         //ajax取得資料
         $.when( $.get(dataUrl,function(data){
-            originData.push(JSON.parse(data))
+            originData = JSON.parse(data)
         }))
         //產生產品的div區塊
         .done(function(){
-            let length = originData[0].length;
+            let length = originData.length;
             let str = '';
             for(let i = 0;i<length;i++){
                 str += `
-                <div class="item ${originData[0][i].class}">
+                <div class="item ${originData[i].class}">
                     <div class="cover"></div>
-                    <span class="title">${originData[0][i].title}</span>
+                    <span class="title">${originData[i].title}</span>
                     <div class="flex">
-                        <span class="price">${originData[0][i].price}</span>
-                        <select name="${originData[0][i].id}">
+                        <span class="price">${originData[i].price}</span>
+                        <select name="${originData[i].id}">
                             <option value="default" disabled selected>select</option>
                         </select>
                     </div>
@@ -35,13 +35,13 @@
         //產生產品數量的option及圖片 
         }).done(function(){
                 $('.item select').each(function(index){
-                        let length = originData[0][index].amount.length
+                        let length = originData[index].amount.length
                         for(let i=1;i<=length;i++){
                             $(this).append($("<option></option>").attr("value", i).text(i))
                         }
                 })
                 $('.cover').each(function(index){
-                    $(this).css('background-image','url('+originData[0][index].cover+')')
+                    $(this).css('background-image','url('+originData[index].cover+')')
                 })
 
         })
@@ -123,17 +123,17 @@
             //index為第幾個按鈕
             let index = $('.btn').index(this)
             //商品id
-            let ID = originData[0][index].id
+            let ID = originData[index].id
             //選擇的商品數量
             let itemAmount = +$(this).siblings('.flex').children('select').val()
             //商品單價
-            let price = originData[0][index].price
+            let price = originData[index].price
             //總價格
             let totalP = price*itemAmount
             //要在購物車內顯示圖片，所以把img url傳過去
-            let img = originData[0][ID].cover
+            let img = originData[ID].cover
             //商品名稱
-            let title = originData[0][ID].title
+            let title = originData[ID].title
             
             //檢查購物車內是否有商品
             let check  = itemInCart.findIndex((x)=> x.id === ID)
