@@ -11,7 +11,7 @@
         //ajax取得資料
         $.when( $.get(dataUrl,function(data){
             //es6 spread 語法，json取回來資料為一陣列，如果直接push會變成陣列裡又有一個陣列
-            //所以使用spread將data陣列裡的資料一一取出，再push到originData
+            //所以使用spread將data陣列裡的資料一一取出，再push到originData(也可以使用concat)
             //參考資料 https://eyesofkids.gitbooks.io/javascript-start-from-es6/content/part4/rest_spread.html
             originData.push(...JSON.parse(data))
         }))
