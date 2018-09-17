@@ -2,15 +2,18 @@
 ;(function($){
     //json資料
     let dataUrl = 'https://monkeywu.github.io/cart_data.json/'
-    //放資料的變數
-    let originData;
+    //放資料的陣列
+    let originData = []
     //在購物車內的商品
     let itemInCart = []
     //取得商品資料，將商品資料帶入
     function addData(){
         //ajax取得資料
         $.when( $.get(dataUrl,function(data){
-            originData = JSON.parse(data)
+            //es6 spread 語法，json取回來資料為一陣列，如果直接push會變成陣列裡又有一個陣列
+            //所以使用spread將data陣列裡的資料一一取出，再push到originData
+            //參考資料 https://eyesofkids.gitbooks.io/javascript-start-from-es6/content/part4/rest_spread.html
+            originData.push(...JSON.parse(data))
         }))
         //產生產品的div區塊
         .done(function(){
